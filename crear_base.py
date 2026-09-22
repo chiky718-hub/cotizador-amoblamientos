@@ -4,7 +4,6 @@ def inicializar_base_datos():
     conexion = sqlite3.connect('sistema_noziglia_mvp.db')
     cursor = conexion.cursor()
 
-    # Tabla 1: Materiales (Se mantiene igual)
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS materiales (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -16,21 +15,27 @@ def inicializar_base_datos():
     )
     ''')
 
-    # Tabla 2: Cotizaciones (AMPLIADA CON DATOS DEL CLIENTE)
+    # Base de datos final con Proyecto y Notas Internas
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS cotizaciones (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        cliente_nombre TEXT NOT NULL,
-        cliente_apellido TEXT,
-        dni_cuit TEXT,
+        razon_social TEXT NOT NULL,
+        nombre_fantasia TEXT,
+        cuit TEXT,
+        condicion_iva TEXT,
+        email TEXT,
         telefono TEXT,
         direccion TEXT,
+        nombre_proyecto TEXT,
         fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
         costo_materiales REAL NOT NULL,
+        costo_mano_obra REAL NOT NULL,
+        costo_logistica REAL NOT NULL,
         margen_ganancia REAL NOT NULL,
         precio_final REAL NOT NULL,
         detalles_json TEXT NOT NULL,
-        estado TEXT NOT NULL
+        estado TEXT NOT NULL,
+        notas_internas TEXT
     )
     ''')
 
@@ -50,7 +55,7 @@ def inicializar_base_datos():
 
     conexion.commit()
     conexion.close()
-    print("Base de datos actualizada con perfil de clientes creada con éxito.")
+    print("Base de datos final (Módulos y CRM) creada con éxito.")
 
 if __name__ == '__main__':
     inicializar_base_datos()
